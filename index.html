@@ -287,6 +287,9 @@
         // Hide image after 4 seconds
         setTimeout(function() {
             $('.image').hide();
+            var width = document.getElementById('STimg').width;
+            var height = document.getElementById('STimg').height;
+            document.getElementById("STimg").style.webkitMaskPosition = (.001*width) + 'px ' + (.06*height) + 'px';
         },4000);
         // Blank screen for 1 second, then show instructions, textbox, and continue button
         setTimeout(function() {
@@ -374,6 +377,9 @@
             // Typical (non-catch) trials: Show image for 4s --> blank for 1s --> show instructions, textbox, and continue button
             setTimeout(function(){
                 $('.image').hide();
+                var width = document.getElementById('STimg').width;
+                var height = document.getElementById('STimg').height;
+                document.getElementById("STimg").style.webkitMaskPosition = (.001*width) + 'px ' + (.06*height) + 'px';
             }, 4000);
             setTimeout(function(){
                 $('.instructions').css("opacity", "1");
