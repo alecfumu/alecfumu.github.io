@@ -250,12 +250,9 @@
             $(".intro").show();
         }
         else{
-            document.getElementById("MTcodeResult").value = "pass"
+            document.getElementById("MTcodeResult").value = "fail"
             $(".consentDIV").hide();
-            $(".intro").show();
-            // document.getElementById("MTcodeResult").value = "fail"
-            // $(".consentDIV").hide();
-            // $("#completion").show();
+            $("#completion").show();
         }
     }
 
