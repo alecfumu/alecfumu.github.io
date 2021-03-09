@@ -100,13 +100,13 @@
         display:none;
     }
     #STimg{
-        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 25%, rgba(0, 0, 0, 0.05) 30%);
-        -webkit-mask-size: 13cm;
+        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.05) 11%);
+        -webkit-mask-size: 300% 300%;
         -webkit-mask-repeat: no-repeat;
     }
     #Testimg{
-        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 25%, rgba(0, 0, 0, 0.05) 30%);
-        -webkit-mask-size: 13cm;
+        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.05) 11%);
+        -webkit-mask-size: 300% 300%;
         -webkit-mask-repeat: no-repeat;
     }
     .responseTime{
@@ -121,9 +121,6 @@
 <div class="consentDIV">
     Prior to beginning this study, please <strong> complete an online consent form </strong><br>
     by clicking on the following link. The link will open in a new tab.<br>
-    <br>
-    When completing the form, you will be asked to provide your <strong> "Full Name"</strong>. <br>
-    Instead of this, please use your <strong> MTurk WorkerID</strong> for this question. <br> 
     <br>
     After submitting the form, you will be provided with a code. Please<br>
     return to this tab and insert the code here to continue the study.<br>
@@ -253,9 +250,12 @@
             $(".intro").show();
         }
         else{
-            document.getElementById("MTcodeResult").value = "fail"
+            document.getElementById("MTcodeResult").value = "pass"
             $(".consentDIV").hide();
-            $("#completion").show();
+            $(".intro").show();
+            // document.getElementById("MTcodeResult").value = "fail"
+            // $(".consentDIV").hide();
+            // $("#completion").show();
         }
     }
 
@@ -276,11 +276,12 @@
 
         $('.intro').hide();
         // Create subset of 10 from full list of image URL's
-        secondHalf = data.splice(92, 184);
-        firstHalf = data.splice(0, 92);
-        listUsed = getRandom(firstHalf, 50);
-        listUnused = getRandom(secondHalf, 25);
+        listUsed = data.slice(0, 50);
+        listUsed = shuffle(listUsed);
+        listUnused = data.slice(50, 75);
+        listUnused = shuffle(listUnused);
         listReused = getRandom(listUsed, 25);
+        listReused = shuffle(listReused);
         listLT = listUnused.concat(listReused);
         listLT = shuffle(listLT);
         // Select 1 image URL from subset of 10
@@ -523,8 +524,8 @@
     var heightTest = document.getElementById('Testimg').height;
     var width = document.getElementById('STimg').width;
     var height = document.getElementById('STimg').height;
-    document.getElementById("Testimg").style.webkitMaskPosition = (x - .65*widthTest) + 'px ' + (y - .5*heightTest) + 'px';
-    document.getElementById("STimg").style.webkitMaskPosition = (x - .65*width) + 'px ' + (y - .5*height) + 'px';
+    document.getElementById("Testimg").style.webkitMaskPosition = (x - 1.5*widthTest) + 'px ' + (y - 1.5*heightTest) + 'px';
+    document.getElementById("STimg").style.webkitMaskPosition = (x - 1.5*width) + 'px ' + (y - 1.5*height) + 'px';
     };
 
     
