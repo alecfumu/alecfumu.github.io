@@ -21,11 +21,22 @@
         margin-right: auto;
         text-align: center;
     }
-    .intro{
+    .intro1{
         width:75%;
         margin: 0 auto;
         background-color: beige;
         border: 2px solid gray;
+        font-size:14pt;
+        display: none;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    .intro2{
+        width:75%;
+        margin: 0 auto;
+        background-color: beige;
+        border: 5px solid red;
         font-size:14pt;
         display: none;
         margin-left: auto;
@@ -124,6 +135,7 @@
     <br>
     After submitting the form, you will be provided with a code. Please<br>
     return to this tab and insert the code here to continue the study.<br>
+    a7ui_i90
     <br>
     <a id="link" href="http://www.google.com" target="_blank">
         Consent Form.
@@ -138,7 +150,7 @@
     <textarea rows="1" cols="1" id="MTcodeResult" name="MTcodeResult"></textarea>
 </div>
 
-<div class="intro">
+<div class="intro1">
     In this study, you will be shown an image for 4 seconds. Most of the image will be<br>
     blurred except for the area around your cursor. <strong>Use your cursor to explore the image.</strong><br>
     <br>
@@ -153,7 +165,23 @@
     (for example: 'brown wall microwave water bottle fridge' is fine), but it should use<br>
     proper spelling when possible. <br>
     <br>
-    <button type="button" id="begin1" class="button">Begin Study</button>
+    <button type="button" id="begin1" class="button">Continue Instructions</button>
+    <br>
+</div>
+
+<div class="intro2">
+    Throughout this study, you will occasionally be presented with special trials where you are asked to type<br>
+    <strong>only what your cursor was last hovering over, not everything you remember about the scene.</strong><br>
+    You will recognize these trials because they will have a <strong>bright red border.</strong><br> 
+    <br>
+    <br>
+    <strong>It is very important that you respond accurately on these trials,</strong> because they ensure<br>
+    that you are paying close attention to the study.<br>
+    <br>
+    <br>
+    When you are ready to begin the study, click the button bellow.<br>
+    <br>
+    <button type="button" id="instructions2" class="button">Begin Study</button>
     <br>
 </div>
 
@@ -247,7 +275,7 @@
         if (inputCode == 'a7ui_i90') {
             document.getElementById("MTcodeResult").value = "pass"
             $(".consentDIV").hide();
-            $(".intro").show();
+            $(".intro1").show();
         }
         else{
             document.getElementById("MTcodeResult").value = "fail"
@@ -255,6 +283,11 @@
             $("#completion").show();
         }
     }
+
+    function introInstrcutionsClicked(){
+            $(".intro1").hide();
+            $(".intro2").show();
+        }
 
     var trialNum = 1;
     var trialTime1 = 0;
@@ -271,7 +304,7 @@
                     continueClicked();};
         },1000);
 
-        $('.intro').hide();
+        $('.intro2').hide();
         // Create subset of 10 from full list of image URL's
         listUsed = data.slice(0, 50);
         listUsed = shuffle(listUsed);
@@ -299,9 +332,6 @@
         // Hide image after 4 seconds
         setTimeout(function() {
             $('.image').hide();
-            var width = document.getElementById('STimg').width;
-            var height = document.getElementById('STimg').height;
-            document.getElementById("STimg").style.webkitMaskPosition = (.001*width) + 'px ' + (.06*height) + 'px';
         },4000);
         // Blank screen for 1 second, then show instructions, textbox, and continue button
         setTimeout(function() {
@@ -314,6 +344,7 @@
     }
     function continueClicked() {
         // Increase trial number by 1
+        $("#STtrial").css("border", "2px solid gray");
         document.getElementById("rt" + trialNum).value = trialTime1 - 6;
         trialNum ++;
         trialTime1 = 0;
@@ -373,6 +404,7 @@
         if (trialNum == 4) {
             setTimeout(function(){
             $('.image').hide();
+            $("#STtrial").css("border", "5px solid red");
             // Display special instructions 
             $('.instructions_catch').css("display", "block")
             $('#progress').show();
@@ -487,7 +519,8 @@
         }
 
     // Begin and Continue buttons
-    $('#begin1').click(beginExperiment);
+    $('#begin1').click(introInstrcutionsClicked);
+    $('#instructions2').click(beginExperiment)
     $('#continue1').click(continueClicked);
     $('#begin2').click(continueExperiment);
     $('#consentButton').click(consentClicked);
