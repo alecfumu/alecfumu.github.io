@@ -21,11 +21,22 @@
         margin-right: auto;
         text-align: center;
     }
-    .intro{
+    .intro1{
         width:75%;
         margin: 0 auto;
         background-color: beige;
         border: 2px solid gray;
+        font-size:14pt;
+        display: none;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    .intro2{
+        width:75%;
+        margin: 0 auto;
+        background-color: beige;
+        border: 5px solid red;
         font-size:14pt;
         display: none;
         margin-left: auto;
@@ -100,44 +111,50 @@
         display:none;
     }
     #STimg{
-        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 25%, rgba(0, 0, 0, 0.05) 30%);
-        -webkit-mask-size: 13cm;
+        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.05) 11%);
+        -webkit-mask-size: 300% 300%;
         -webkit-mask-repeat: no-repeat;
     }
     #Testimg{
-        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 25%, rgba(0, 0, 0, 0.05) 30%);
-        -webkit-mask-size: 13cm;
+        -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.05) 11%);
+        -webkit-mask-size: 300% 300%;
         -webkit-mask-repeat: no-repeat;
     }
     .responseTime{
+        display:none;
+    }
+    #MTcodeResult{
+        display:none;
+    }
+    .catchTime{
         display:none;
     }
 
 </style>
 
 <div class="consentDIV">
-    Prior to beginning this experiment, please <strong> complete an online consent form </strong><br>
+    Prior to beginning this study, please <strong> complete an online consent form </strong><br>
     by clicking on the following link. The link will open in a new tab.<br>
     <br>
-    When completing the form, you will be asked to provide your <strong> "Full Name"</strong>. <br>
-    Instead of this, please use your <strong> MTurk WorkerID</strong> for this question. <br> 
-    <br>
-    After submitting the form, please return to this tab to continue the experiment.<br>
+    After submitting the form, you will be provided with a code. Please<br>
+    return to this tab and insert the code here to continue the study.<br>
+    a7ui_i90
     <br>
     <a id="link" href="http://www.google.com" target="_blank">
         Consent Form.
     </a>
     <br>
     <br>
-    <strong>NOTE:</strong> If we do not recieve an online consent form with an MTurk WorkerID matching <br>
-    that of your MTurk account, <strong>your HIT will be rejected</strong> and you will not be compensated.<br>
+    Code:<input id="MTcode" name="MTcode">
+    <br>
     <br>
     <button type="button" id="consentButton" class="button">I have completed the consent form</button>
     <br>
+    <textarea rows="1" cols="1" id="MTcodeResult" name="MTcodeResult"></textarea>
 </div>
 
-<div class="intro">
-    In this experiment, you will be shown an image for 4 seconds. Most of the image will be<br>
+<div class="intro1">
+    In this study, you will be shown an image for 4 seconds. Most of the image will be<br>
     blurred except for the area around your cursor. <strong>Use your cursor to explore the image.</strong><br>
     <br>
     <br>
@@ -151,7 +168,23 @@
     (for example: 'brown wall microwave water bottle fridge' is fine), but it should use<br>
     proper spelling when possible. <br>
     <br>
-    <button type="button" id="begin1" class="button">Begin Experiment</button>
+    <button type="button" id="begin1" class="button">Continue Instructions</button>
+    <br>
+</div>
+
+<div class="intro2">
+    Throughout this study, you will occasionally be presented with special trials where you are asked to type<br>
+    <strong>only what your cursor was last hovering over, not everything you remember about the scene.</strong><br>
+    You will recognize these trials because they will have a <strong>bright red border.</strong><br> 
+    <br>
+    <br>
+    <strong>It is very important that you respond accurately on these trials,</strong> because they ensure<br>
+    that you are paying close attention to the study.<br>
+    <br>
+    <br>
+    When you are ready to begin the study, click the button bellow.<br>
+    <br>
+    <button type="button" id="instructions2" class="button">Begin Study</button>
     <br>
 </div>
 
@@ -179,8 +212,8 @@
 
 <div id="LTtrial" class='trialDiv'>
     <span class = instructions_LT>
-    For this portion of the experiment, you will be shown an image for two seconds and asked<br>
-    whether the image appeared previously in the experiment.<br>
+    For this portion of the study, you will be shown an image for two seconds and asked<br>
+    whether the image appeared previously in the study.<br>
     <br>
     If you are sure that you remember the image, select 'Sure Old'. If you are sure the image<br>
     is new, select 'Sure New'. If you are unsure, select either 'Maybe Old' or 'Maybe New'. <br>
@@ -188,7 +221,7 @@
     </span>
     <br>
     <br>
-    <button type="button" id="begin2" class="button">Continue Experiment</button>
+    <button type="button" id="begin2" class="button">Continue Study</button>
     <img id="LTimg" class="image">
     <br>
     <button type="button" id="sureOld" class="LTbutton">Sure Old</button>
@@ -203,7 +236,7 @@
 </div>
 
 <div id="completion" class='trialDiv'>
-    <span>You have completed this task. Please click<br>
+    <span>You have completed this study. Please click<br>
     the 'submit' button to submit your responses.</span>
 </div>
 
@@ -239,11 +272,27 @@
       }
         return array;}
 
+    function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);}
 
     function consentClicked(){
-        $(".consentDIV").hide();
-        $(".intro").show();
+        var inputCode = document.getElementById("MTcode").value;
+        if (inputCode == 'a7ui_i90') {
+            document.getElementById("MTcodeResult").value = "pass"
+            $(".consentDIV").hide();
+            $(".intro1").show();
+        }
+        else{
+            document.getElementById("MTcodeResult").value = "fail"
+            $(".consentDIV").hide();
+            $("#completion").show();
+        }
     }
+
+    function introInstrcutionsClicked(){
+            $(".intro1").hide();
+            $(".intro2").show();
+        }
 
     var trialNum = 1;
     var trialTime1 = 0;
@@ -260,13 +309,14 @@
                     continueClicked();};
         },1000);
 
-        $('.intro').hide();
+        $('.intro2').hide();
         // Create subset of 10 from full list of image URL's
-        secondHalf = data.splice(92, 184);
-        firstHalf = data.splice(0, 92);
-        listUsed = getRandom(firstHalf, 50);
-        listUnused = getRandom(secondHalf, 25);
+        listUsed = data.slice(0, 50);
+        listUsed = shuffle(listUsed);
+        listUnused = data.slice(50, 75);
+        listUnused = shuffle(listUnused);
         listReused = getRandom(listUsed, 25);
+        listReused = shuffle(listReused);
         listLT = listUnused.concat(listReused);
         listLT = shuffle(listLT);
         // Select 1 image URL from subset of 10
@@ -297,8 +347,10 @@
         },5000);
         }, 800)
     }
+
     function continueClicked() {
         // Increase trial number by 1
+        $("#STtrial").css("border", "2px solid gray");
         document.getElementById("rt" + trialNum).value = trialTime1 - 6;
         trialNum ++;
         trialTime1 = 0;
@@ -335,8 +387,8 @@
         reptime.id = "rt" + trialNum;
         reptime.name = "rt" + trialNum;
         reptime.setAttribute("class", "responseTime");
-        coord.cols = "1";
-        coord.rows = "1";
+        reptime.cols = "1";
+        reptime.rows = "1";
         div.appendChild(reptime);
         // Select new image from subset of 10
         selected_image = listUsed[trialNum - 1];
@@ -355,17 +407,30 @@
         setTimeout(function(){
         $('.image').show();
         // Present catch trials: Show image for 2s --> hide image, show special instructions, textbox, and continue button
-        if (trialNum == 4) {
+        catch_trials_full_list = Array.from(Array(50).keys());
+        catch_trials_list = getRandom(catch_trials_full_list, 16);
+        if (catch_trials_list.includes(trialNum)) {
+            var div = document.getElementById("STtrial");
+            var catchtime = document.createElement("textarea");
+            catchtime.id = "catchTime" + trialNum;
+            catchtime.name = "catchTime" + trialNum;
+            catchtime.setAttribute("class", "catchTime");
+            catchtime.cols = "1";
+            catchtime.rows = "1";
+            div.appendChild(catchtime);
+            var catch_trial_time = randomIntFromInterval(1500, 3500);
+            document.getElementById("catchTime" + trialNum).value = catch_trial_time;
             setTimeout(function(){
             $('.image').hide();
+            $("#STtrial").css("border", "5px solid red");
             // Display special instructions 
             $('.instructions_catch').css("display", "block")
             $('#progress').show();
             $('#question' + trialNum).css("opacity", "1");
             $('#continue1').show();
-            }, 2000);} 
+            }, catch_trial_time);} 
             // End ST memory task and move on to LT memory task
-            else if (trialNum == 6) {
+            else if (trialNum == 51) {
                 $('#STtrial').hide();
                 $('.image').hide();
                 $('#LTtrial').show();
@@ -374,6 +439,9 @@
             // Typical (non-catch) trials: Show image for 4s --> blank for 1s --> show instructions, textbox, and continue button
             setTimeout(function(){
                 $('.image').hide();
+                var width = document.getElementById('STimg').width;
+                var height = document.getElementById('STimg').height;
+                document.getElementById("STimg").style.webkitMaskPosition = (.001*width) + 'px ' + (.06*height) + 'px';
             }, 4000);
             setTimeout(function(){
                 $('.instructions').css("opacity", "1");
@@ -469,7 +537,8 @@
         }
 
     // Begin and Continue buttons
-    $('#begin1').click(beginExperiment);
+    $('#begin1').click(introInstrcutionsClicked);
+    $('#instructions2').click(beginExperiment)
     $('#continue1').click(continueClicked);
     $('#begin2').click(continueExperiment);
     $('#consentButton').click(consentClicked);
@@ -503,8 +572,8 @@
     var heightTest = document.getElementById('Testimg').height;
     var width = document.getElementById('STimg').width;
     var height = document.getElementById('STimg').height;
-    document.getElementById("Testimg").style.webkitMaskPosition = (x - .65*widthTest) + 'px ' + (y - .5*heightTest) + 'px';
-    document.getElementById("STimg").style.webkitMaskPosition = (x - .65*width) + 'px ' + (y - .5*height) + 'px';
+    document.getElementById("Testimg").style.webkitMaskPosition = (x - 1.5*widthTest) + 'px ' + (y - 1.5*heightTest) + 'px';
+    document.getElementById("STimg").style.webkitMaskPosition = (x - 1.5*width) + 'px ' + (y - 1.5*height) + 'px';
     };
 
     
@@ -519,7 +588,7 @@
     MTworkerID = MTurl.split('workerID');
     MTworkerID = MTurl.split('workerID');
     MTworkerID = MTworkerID[1];
-    document.getElementById("link").setAttribute("href", "https://redcap.prc.utexas.edu/redcap/surveys/?s=H7HXEHWKAX");
+    document.getElementById("link").setAttribute("href", "https://redcap.prc.utexas.edu/redcap/surveys/?s=MYAHRJY999");
 
 
 </script>
