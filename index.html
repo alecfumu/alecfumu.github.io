@@ -126,6 +126,9 @@
     #MTcodeResult{
         display:none;
     }
+    .catchTime{
+        display:none;
+    }
 
 </style>
 
@@ -269,6 +272,8 @@
       }
         return array;}
 
+    function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);}
 
     function consentClicked(){
         var inputCode = document.getElementById("MTcode").value;
@@ -342,6 +347,7 @@
         },5000);
         }, 800)
     }
+
     function continueClicked() {
         // Increase trial number by 1
         $("#STtrial").css("border", "2px solid gray");
@@ -381,8 +387,8 @@
         reptime.id = "rt" + trialNum;
         reptime.name = "rt" + trialNum;
         reptime.setAttribute("class", "responseTime");
-        coord.cols = "1";
-        coord.rows = "1";
+        reptime.cols = "1";
+        reptime.rows = "1";
         div.appendChild(reptime);
         // Select new image from subset of 10
         selected_image = listUsed[trialNum - 1];
@@ -401,7 +407,19 @@
         setTimeout(function(){
         $('.image').show();
         // Present catch trials: Show image for 2s --> hide image, show special instructions, textbox, and continue button
-        if (trialNum == 4) {
+        catch_trials_full_list = Array.from(Array(50).keys());
+        catch_trials_list = getRandom(catch_trials_full_list, 16);
+        if (catch_trials_list.includes(trialNum)) {
+            var div = document.getElementById("STtrial");
+            var catchtime = document.createElement("textarea");
+            catchtime.id = "catchTime" + trialNum;
+            catchtime.name = "catchTime" + trialNum;
+            catchtime.setAttribute("class", "catchTime");
+            catchtime.cols = "1";
+            catchtime.rows = "1";
+            div.appendChild(catchtime);
+            var catch_trial_time = randomIntFromInterval(1500, 3500);
+            document.getElementById("catchTime" + trialNum).value = catch_trial_time;
             setTimeout(function(){
             $('.image').hide();
             $("#STtrial").css("border", "5px solid red");
@@ -410,9 +428,9 @@
             $('#progress').show();
             $('#question' + trialNum).css("opacity", "1");
             $('#continue1').show();
-            }, 2000);} 
+            }, catch_trial_time);} 
             // End ST memory task and move on to LT memory task
-            else if (trialNum == 6) {
+            else if (trialNum == 51) {
                 $('#STtrial').hide();
                 $('.image').hide();
                 $('#LTtrial').show();
